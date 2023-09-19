@@ -49,7 +49,6 @@ const EventList = () => {
             {/* add filter method */}
             {filteredEvents
               .filter((evt) => {
-                console.log(evt);
                 if(type === null){
 
                   return true;

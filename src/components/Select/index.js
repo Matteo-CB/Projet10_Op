@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import {  useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 
 import "./style.scss";
@@ -15,13 +15,18 @@ const Select = ({
 }) => {
   const [value, setValue] = useState();
   const [collapsed, setCollapsed] = useState(true);
-  const changeValue = (newValue) => {
+  const changeValue = (newValue, bool) => {
     // add newValue
     onChange(newValue);
     setValue(newValue);
-    setCollapsed(newValue);
+    // ajout du parametre bool et de cette condition pour regler le probleme du Select Toutes
+    if (bool) {
+      setCollapsed(bool);
+    } else {
+      setCollapsed(newValue);
+    }
   };
-  
+
   return (
     <div className={`SelectContainer ${type}`} data-testid="select-testid">
       {label && <div className="label">{label}</div>}
@@ -33,9 +38,9 @@ const Select = ({
           {!collapsed && (
             <>
               {!titleEmpty && (
-                <li onClick={() => changeValue(null)}>
+                <li onClick={() => changeValue(null, true)}>
                   <input defaultChecked={!value} name="selected" type="radio" />{" "}
-                  toutes
+                  Toutes
                 </li>
               )}
               {selection.map((s) => (
@@ -90,7 +95,7 @@ Select.propTypes = {
   titleEmpty: PropTypes.bool,
   label: PropTypes.string,
   type: PropTypes.string,
-}
+};
 
 Select.defaultProps = {
   onChange: () => null,
@@ -98,6 +103,6 @@ Select.defaultProps = {
   label: "",
   type: "normal",
   name: "select",
-}
+};
 
 export default Select;
